@@ -39,4 +39,12 @@ if user_input:
     st.write("Extracted and Categorized Intents and Entities:")
     st.json(result)
 
+def show():
+    st.subheader("Hehe app")
+    st.info("This is the hehe app.")
+    if st.button("Say hehe"):
+        st.success("Hehe!")
+
+show()
+
 

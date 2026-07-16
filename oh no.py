@@ -40,3 +40,11 @@ if st.button("translate"):
         resut = translator(text)
 
         st.success(result[0]["translation_text"])
+
+def show():
+    st.subheader("Oh no app")
+    st.warning("This is the oh-no app.")
+    if st.button("Trigger warning"):
+        st.error("Oh no! Something happened.")
+
+show()
