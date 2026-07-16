@@ -1,4 +1,14 @@
-from openai import OpenAI
+try:
+    from openai import OpenAI as OpenAIClient
+except (ModuleNotFoundError, ImportError) as exc:
+    class OpenAI:
+        def __init__(self, *args, **kwargs):
+            raise RuntimeError(
+                "The 'openai' package is not installed. Install it with `pip install openai`."
+            ) from exc
+else:
+    OpenAI = OpenAIClient
+
 import streamlit as st
 
 client = OpenAI(api_key=st.secrets["OpenAI_Key"])
