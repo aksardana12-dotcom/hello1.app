@@ -3,6 +3,7 @@ import requests
 from gtts import gTTS
 from io import BytesIO
 st.set_page_config(
+    
     page_title= "AI weather bot"
     page_icon = "(╯°□°）╯︵ ┻━┻"
 )
@@ -10,7 +11,7 @@ st.set_page_config(
 st.title("AI weather")
 st.write("Enter any city and get live weather")
 
-def get_city(city)
+def get_city(city):
     url = f"geocoding-api.open-meteo.com/v1/search?name={city}&count=1"
 
     data = requests.get(url).json()
@@ -44,7 +45,7 @@ def advice(temp,rain):
         
         return f"weather looks good"
     
-    def speak (text)
+    def speak (text):
         
         audio = BytesIOO()
 
