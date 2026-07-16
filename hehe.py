@@ -1,3 +1,7 @@
+import os
+
+import streamlit as st
+
 try:
     from openai import OpenAI as OpenAIClient
 except (ModuleNotFoundError, ImportError) as exc:
@@ -9,9 +13,35 @@ except (ModuleNotFoundError, ImportError) as exc:
 else:
     OpenAI = OpenAIClient
 
-import streamlit as st
 
-client = OpenAI(api_key=st.secrets["OpenAI_Key"])
+def _get_openai_api_key():
+    api_key = os.getenv("OPENAI_API_KEY")
+    if api_key:
+        return api_key
+
+    try:
+        api_key = st.secrets["OpenAI_Key"]
+    except Exception:
+        return None
+
+    return api_key if api_key else None
+
+
+def _build_client():
+    api_key = _get_openai_api_key()
+    if not api_key:
+        class MissingClient:
+            def __getattr__(self, _name):
+                raise RuntimeError(
+                    "Missing OpenAI API key. Set OPENAI_API_KEY or add `OpenAI_Key` to Streamlit secrets."
+                )
+
+        return MissingClient()
+
+    return OpenAI(api_key=api_key)
+
+
+client = _build_client()
 
 # Define the function to extract and categorize intents and entities using OpenAI API
 def extract_and_categorize(text):
